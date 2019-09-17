@@ -1,5 +1,6 @@
 package net.alexander.backdata.command;
 
+import net.alexander.backdata.command.commands.ExitCommand;
 import net.alexander.backdata.command.commands.HelpCommand;
 import net.alexander.backdata.log.LoggerManager;
 import net.alexander.backdata.service.Service;
@@ -18,6 +19,7 @@ public class CommandManager implements Service {
     public CommandManager() {
         commands = new HashMap<>();
         registerCommand(new HelpCommand("help"));
+        registerCommand(new ExitCommand("exit"));
     }
 
     public void registerCommand(Command command) {

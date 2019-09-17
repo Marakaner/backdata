@@ -10,21 +10,19 @@ public class Test extends Thread {
 
     public Test() {
         running = true;
+        setDaemon(true);
     }
 
     @Override
     public void run() {
         int i = 0;
-        while (running) {
+        while (i < 21) {
             loggerManager.log("Na " + i);
             i++;
             try {
                 Thread.sleep(200);
             } catch (InterruptedException e) {
                 e.printStackTrace();
-            }
-            if(i == 20) {
-                this.stop();
             }
         }
     }

@@ -15,6 +15,8 @@ import java.util.Scanner;
 
 public class BackData {
 
+    private boolean running;
+
     private static BackData instance;
     private Gson publicGson;
 
@@ -27,6 +29,9 @@ public class BackData {
     private ConsoleManager consoleManager;
 
     public BackData() {
+        instance = this;
+        running = true;
+
         File folder = new File("BackData");
 
         if(folder.exists()) {
@@ -116,7 +121,7 @@ public class BackData {
         return loginManager;
     }
 
-    public BackData getInstance() {
+    public static BackData getInstance() {
         return instance;
     }
 
@@ -124,8 +129,16 @@ public class BackData {
         return publicGson;
     }
 
+    public boolean isRunning() {
+        return running;
+    }
+
+    public void setRunning(boolean running) {
+        this.running = running;
+    }
+
     public static void main(String[] args) {
-        instance = new BackData();
+        new BackData();
     }
 
 }
