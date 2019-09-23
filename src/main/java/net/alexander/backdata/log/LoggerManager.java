@@ -25,7 +25,7 @@ public class LoggerManager implements Service {
         try {
             File file = new File(logFile);
             file.createNewFile();
-            PatternLayout layout = new PatternLayout("%d{dd-MM-yyyy HH:mm:ss} [%p] %c{1} - %m%n");
+            PatternLayout layout = new PatternLayout("%d{dd-MM-yyyy HH:mm:ss} [%p] - %m%n");
             ConsoleAppender consoleAppender = new ConsoleAppender(layout);
             logger.addAppender(consoleAppender);
             FileAppender fileAppender = new FileAppender(layout, logFile, false);

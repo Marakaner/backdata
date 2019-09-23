@@ -17,9 +17,7 @@ public class ServiceManager {
     public static void registerService(Class<Service> clazz) {
         try {
             registerService(clazz, clazz.newInstance());
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
+        } catch (InstantiationException | IllegalAccessException e) {
             e.printStackTrace();
         }
     }

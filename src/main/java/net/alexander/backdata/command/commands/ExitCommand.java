@@ -16,6 +16,6 @@ public class ExitCommand extends Command {
     @Override
     public void execute(String[] args) {
         logger.log("The Database is now shutting down...");
-        BackData.getInstance().setRunning(false);
+        BackData.getInstance().shutdown();
     }
 }

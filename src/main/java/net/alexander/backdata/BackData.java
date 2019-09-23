@@ -4,13 +4,20 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import net.alexander.backdata.command.CommandManager;
 import net.alexander.backdata.console.ConsoleManager;
+import net.alexander.backdata.event.Event;
+import net.alexander.backdata.event.EventManager;
+import net.alexander.backdata.event.events.MessageReceivedEvent;
+import net.alexander.backdata.event.events.MessageSendEvent;
 import net.alexander.backdata.file.FileLoader;
 import net.alexander.backdata.log.LoggerManager;
 import net.alexander.backdata.login.LoginManager;
 import net.alexander.backdata.service.ServiceManager;
-import net.alexander.backdata.test.Test;
+import net.alexander.backdata.user.User;
+import net.alexander.backdata.user.UserManager;
 
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Scanner;
 
 public class BackData {
@@ -26,34 +33,57 @@ public class BackData {
     private LoginManager loginManager;
     private CommandManager commandManager;
     private LoggerManager loggerManager;
+    private UserManager userManager;
     private ConsoleManager consoleManager;
+    private EventManager eventManager;
 
     public BackData() {
+
         instance = this;
-        running = true;
 
         File folder = new File("BackData");
 
-        if(folder.exists()) {
-            this.loggerManager = new LoggerManager();
-            ServiceManager.registerService(LoggerManager.class, loggerManager);
+        publicGson = new GsonBuilder().setPrettyPrinting().create();
 
-            this.loggerManager.log("Initializing 'backdata' Database Software");
+        if(folder.exists()) {
+            running = true;
             init();
         } else {
             folder.mkdir();
+
             this.loggerManager = new LoggerManager();
             ServiceManager.registerService(LoggerManager.class, loggerManager);
+
+            this.userManager = new UserManager();
+            ServiceManager.registerService(UserManager.class, userManager);
+
+            User root = userManager.createUser("root", "Backyard");
+            root.addPermission("admin");
 
             installing();
         }
     }
 
     private void init() {
-        publicGson = new GsonBuilder().setPrettyPrinting().create();
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            shutdown();
+        }));
 
         initCommands();
         initManager();
+        initEvents();
+    }
+
+    public void shutdown() {
+        running = false;
+
+        try {
+            FileWriter fileWriter = new FileWriter("BackData/user/user.json");
+            BackData.getInstance().getPublicGson().toJson(userManager.getUserMap(), fileWriter);
+            fileWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void installing() {
@@ -91,13 +121,20 @@ public class BackData {
      * Initializing all Manager
      */
     private void initManager() {
+        this.loggerManager = new LoggerManager();
+        ServiceManager.registerService(LoggerManager.class, loggerManager);
+
         this.loginManager = new LoginManager();
         ServiceManager.registerService(LoginManager.class, loginManager);
 
         this.commandManager = new CommandManager();
         ServiceManager.registerService(CommandManager.class, commandManager);
 
-        new Test().start();
+        this.userManager = new UserManager();
+        ServiceManager.registerService(UserManager.class, userManager);
+
+        this.eventManager = new EventManager();
+        ServiceManager.registerService(EventManager.class, eventManager);
 
         this.consoleManager = new ConsoleManager();
     }
@@ -107,6 +144,11 @@ public class BackData {
      */
     private void initCommands() {
 
+    }
+
+    private void initEvents() {
+        this.eventManager.registerEvent(MessageSendEvent.class);
+        this.eventManager.registerEvent(MessageReceivedEvent.class);
     }
 
     public CommandManager getCommandManager() {
@@ -119,6 +161,18 @@ public class BackData {
 
     public LoginManager getLoginManager() {
         return loginManager;
+    }
+
+    public ConsoleManager getConsoleManager() {
+        return consoleManager;
+    }
+
+    public UserManager getUserManager() {
+        return userManager;
+    }
+
+    public EventManager getEventManager() {
+        return eventManager;
     }
 
     public static BackData getInstance() {

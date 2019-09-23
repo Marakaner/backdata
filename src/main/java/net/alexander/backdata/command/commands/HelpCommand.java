@@ -14,6 +14,6 @@ public class HelpCommand extends Command {
     }
 
     public void execute(String[] args) {
-        logger.log("Test");
+        logger.log("Help Page");
     }
 }
