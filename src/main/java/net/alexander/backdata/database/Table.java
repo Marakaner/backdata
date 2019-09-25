@@ -1,15 +1,27 @@
 package net.alexander.backdata.database;
 
-import java.util.HashMap;
+import lombok.Getter;
+
 import java.util.List;
-import java.util.Map;
 
-class Table {
+public class Table {
 
-    private List<DataSet> dataSets;
+    @Getter private String name;
+    @Getter private List<DataSet> dataSets;
 
-    public List<DataSet> getDataSets() {
-        return dataSets;
+    public Table(String name) {
+        this.name = name;
+    }
+
+    public DataSet getDataSet(String key) {
+        for(DataSet dataSet : dataSets) {
+            for(String dataKey : dataSet.getEntries().keySet()) {
+                if(dataKey.equals(key)) {
+                    return dataSet;
+                }
+            }
+        }
+        return null;
     }
 
 }

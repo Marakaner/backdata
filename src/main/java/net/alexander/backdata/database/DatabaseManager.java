@@ -1,34 +1,51 @@
 package net.alexander.backdata.database;
 
+import com.google.gson.JsonObject;
+import net.alexander.backdata.network.Client;
+import net.alexander.backdata.service.Service;
+import net.alexander.backdata.util.Document;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
-import java.util.function.Consumer;
 
-public class DatabaseManager {
+public class DatabaseManager implements Service {
 
-    private Database database;
+    private Map<String, Table> tables;
 
     public DatabaseManager() {
-        this.database = new Database();
+        this.tables = new HashMap<>();
     }
 
-    public void getDatabaseComponent(String query, Consumer<DatabaseComponent> consumer) {
-        new Thread(() -> {
-            String[] args = query.split(" ");
+    public void handleRequest(Client client, JsonObject jsonObject) {
+        Document document = new Document(jsonObject);
 
-            if(args[0].equalsIgnoreCase("get") || args[0].equalsIgnoreCase("set") || args[0].equalsIgnoreCase("exist")) {
-                Table table = this.database.getTable(args[1].toLowerCase());
-                if(table != null) {
+        UUID id = UUID.fromString(document.getString("id"));
+        String[] args = document.getString("query").trim().split(" ");
 
-                } else {
-
-                }
+        if(args[0].equalsIgnoreCase("get")) {
+            String tableName = args[3];
+            if(this.tables.containsKey(tableName)) {
+                Table table = this.tables.get(tableName);
             } else {
-                consumer.accept(new FailedRequest("Can't resolve query", RequestError.QUERY_ERROR));
+                sendError(client, id, "Could not find database");
             }
+        } else if(args[0].equalsIgnoreCase("set")) {
 
-        }).start();
+        }
+
     }
 
+    private void sendError(Client client, UUID id, String message) {
+        client.write(new Document()
+                .addString("id", id.toString())
+                .addString("type", "Error")
+                .addString("value", message)
+                .create());
+    }
+
+    @Override
+    public String getName() {
+        return this.getClass().getSimpleName();
+    }
 }

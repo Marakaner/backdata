@@ -1,10 +1,5 @@
 package net.alexander.backdata.command;
 
-import net.alexander.backdata.service.Service;
-import net.alexander.backdata.user.User;
-
-import java.util.logging.LogManager;
-
 public abstract class Command {
 
     private String name;

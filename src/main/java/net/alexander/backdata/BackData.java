@@ -2,9 +2,11 @@ package net.alexander.backdata;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import lombok.Getter;
+import lombok.Setter;
 import net.alexander.backdata.command.CommandManager;
 import net.alexander.backdata.console.ConsoleManager;
-import net.alexander.backdata.event.Event;
+import net.alexander.backdata.database.DatabaseManager;
 import net.alexander.backdata.event.EventManager;
 import net.alexander.backdata.event.events.MessageReceivedEvent;
 import net.alexander.backdata.event.events.MessageSendEvent;
@@ -22,20 +24,21 @@ import java.util.Scanner;
 
 public class BackData {
 
-    private boolean running;
+    @Getter @Setter private boolean running;
 
-    private static BackData instance;
-    private Gson publicGson;
+    @Getter private static BackData instance;
+    @Getter private Gson publicGson;
 
     /**
      * All Manager
      */
-    private LoginManager loginManager;
-    private CommandManager commandManager;
-    private LoggerManager loggerManager;
-    private UserManager userManager;
-    private ConsoleManager consoleManager;
-    private EventManager eventManager;
+    @Getter private LoginManager loginManager;
+    @Getter private CommandManager commandManager;
+    @Getter private LoggerManager loggerManager;
+    @Getter private UserManager userManager;
+    @Getter private ConsoleManager consoleManager;
+    @Getter private EventManager eventManager;
+    @Getter private DatabaseManager databaseManager;
 
     public BackData() {
 
@@ -136,6 +139,9 @@ public class BackData {
         this.eventManager = new EventManager();
         ServiceManager.registerService(EventManager.class, eventManager);
 
+        this.databaseManager = new DatabaseManager();
+        ServiceManager.registerService(DatabaseManager.class, databaseManager);
+
         this.consoleManager = new ConsoleManager();
     }
 
@@ -149,46 +155,6 @@ public class BackData {
     private void initEvents() {
         this.eventManager.registerEvent(MessageSendEvent.class);
         this.eventManager.registerEvent(MessageReceivedEvent.class);
-    }
-
-    public CommandManager getCommandManager() {
-        return commandManager;
-    }
-
-    public LoggerManager getLoggerManager() {
-        return loggerManager;
-    }
-
-    public LoginManager getLoginManager() {
-        return loginManager;
-    }
-
-    public ConsoleManager getConsoleManager() {
-        return consoleManager;
-    }
-
-    public UserManager getUserManager() {
-        return userManager;
-    }
-
-    public EventManager getEventManager() {
-        return eventManager;
-    }
-
-    public static BackData getInstance() {
-        return instance;
-    }
-
-    public Gson getPublicGson() {
-        return publicGson;
-    }
-
-    public boolean isRunning() {
-        return running;
-    }
-
-    public void setRunning(boolean running) {
-        this.running = running;
     }
 
     public static void main(String[] args) {

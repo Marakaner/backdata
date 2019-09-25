@@ -1,7 +1,6 @@
 package net.alexander.backdata.user;
 
 import net.alexander.backdata.BackData;
-import net.alexander.backdata.service.ServiceManager;
 
 import java.util.ArrayList;
 import java.util.List;

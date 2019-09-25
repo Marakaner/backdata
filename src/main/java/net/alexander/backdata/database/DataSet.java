@@ -1,12 +1,28 @@
 package net.alexander.backdata.database;
 
+import lombok.Getter;
+
 import java.util.HashMap;
+import java.util.Map;
 
-class DataSet {
+public class DataSet {
 
-    private HashMap<String, Entry> entries;
+    @Getter private Map<String, Entry> entries;
 
-    public HashMap<String, Entry> getEntries() {
-        return entries;
+    public DataSet() {
+        this.entries = new HashMap<>();
     }
+
+    public <T> T getEntry(String key) {
+        return (T) entries.getOrDefault(key, null);
+    }
+
+    public void setEntry(String key, Entry value) {
+        if (this.entries.containsKey(key)) {
+            this.entries.replace(key, value);
+        } else {
+            this.entries.put(key, value);
+        }
+    }
+
 }

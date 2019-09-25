@@ -6,7 +6,6 @@ import net.alexander.backdata.service.Service;
 
 import java.io.*;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class UserManager implements Service {
@@ -16,6 +15,38 @@ public class UserManager implements Service {
     public UserManager() {
         userMap = new HashMap<>();
         init();
+    }
+
+    public User createUser(String name, String password) {
+        User user = new User(this.userMap.size() + 1, name, password);
+        this.userMap.put(name.toLowerCase(), user);
+        saveFile();
+        return user;
+    }
+
+    public void deleteUser(String name) {
+        if(isUserExisting(name)) {
+            this.userMap.remove(name.toLowerCase());
+            saveFile();
+        }
+    }
+
+    public User getUser(String name) {
+        return this.userMap.getOrDefault(name.toLowerCase(), null);
+    }
+
+    public boolean isUserExisting(String name) {
+        return this.userMap.containsKey(name.toLowerCase());
+    }
+
+    public User login(String username, String password) {
+        if(isUserExisting(username)) {
+            User user = getUser(username);
+            if(user.password.equals(password)) {
+                return user;
+            }
+        }
+        return null;
     }
 
     private void init() {
@@ -55,28 +86,6 @@ public class UserManager implements Service {
                 e.printStackTrace();
             }
         }).start();
-    }
-
-    public User createUser(String name, String password) {
-        User user = new User(this.userMap.size() + 1, name, password);
-        this.userMap.put(name.toLowerCase(), user);
-        saveFile();
-        return user;
-    }
-
-    public void deleteUser(String name) {
-        if(isUserExisting(name)) {
-            this.userMap.remove(name.toLowerCase());
-            saveFile();
-        }
-    }
-
-    public User getUser(String name) {
-        return this.userMap.getOrDefault(name.toLowerCase(), null);
-    }
-
-    public boolean isUserExisting(String name) {
-        return this.userMap.containsKey(name.toLowerCase());
     }
 
     public Map<String, User> getUserMap() {

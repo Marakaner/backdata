@@ -1,8 +1,5 @@
 package net.alexander.backdata.service;
 
-import net.alexander.backdata.log.LoggerManager;
-import net.alexander.backdata.user.UserManager;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,7 +7,7 @@ public class ServiceManager {
 
     private static Map<Class, Service> services = new HashMap<>();
 
-    public static  <T> T getService(Class clazz) {
+    public static <T> T getService(Class clazz) {
         return (T) services.get(clazz);
     }
 

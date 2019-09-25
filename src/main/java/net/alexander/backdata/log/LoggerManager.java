@@ -1,12 +1,10 @@
 package net.alexander.backdata.log;
 
-import net.alexander.backdata.command.CommandManager;
 import net.alexander.backdata.service.Service;
 import org.apache.log4j.*;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 

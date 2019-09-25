@@ -1,5 +1,6 @@
 package net.alexander.backdata.event.events;
 
+import com.google.gson.JsonObject;
 import net.alexander.backdata.event.Cancellable;
 import net.alexander.backdata.event.Event;
 import net.alexander.backdata.network.Client;
@@ -7,16 +8,16 @@ import net.alexander.backdata.network.Client;
 public class MessageReceivedEvent implements Event, Cancellable {
 
     private Client sender;
-    private String message;
+    private JsonObject message;
 
     private boolean cancelled;
 
-    public MessageReceivedEvent(Client sender, String message) {
+    public MessageReceivedEvent(Client sender, JsonObject message) {
         this.sender = sender;
         this.message = message;
     }
 
-    public String getMessage() {
+    public JsonObject getMessage() {
         return message;
     }
 

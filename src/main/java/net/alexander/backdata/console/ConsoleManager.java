@@ -18,7 +18,7 @@ public class ConsoleManager {
         Scanner scanner = new Scanner(System.in);
         String line;
 
-        while(BackData.getInstance().isRunning() && ((line = scanner.nextLine()) != null &! line.equals(""))) {
+        while(BackData.getInstance().isRunning() && (line = scanner.nextLine()) != null) {
             commandManager.checkCommand(line);
         }
     }

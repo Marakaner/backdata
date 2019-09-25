@@ -95,9 +95,7 @@ public class FileLoader {
     }
 
     public void delete(String key) {
-        if(this.storage.containsKey(key)) {
-            this.storage.remove(key);
-        }
+        this.storage.remove(key);
     }
 
     public HashMap<String, Object> getStorage() {
