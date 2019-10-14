@@ -5,6 +5,8 @@ import com.google.gson.GsonBuilder;
 import lombok.Getter;
 import lombok.Setter;
 import net.alexander.backdata.command.CommandManager;
+import net.alexander.backdata.command.commands.ExitCommand;
+import net.alexander.backdata.command.commands.HelpCommand;
 import net.alexander.backdata.console.ConsoleManager;
 import net.alexander.backdata.database.DatabaseManager;
 import net.alexander.backdata.event.EventManager;
@@ -13,6 +15,7 @@ import net.alexander.backdata.event.events.MessageSendEvent;
 import net.alexander.backdata.file.FileLoader;
 import net.alexander.backdata.log.LoggerManager;
 import net.alexander.backdata.login.LoginManager;
+import net.alexander.backdata.network.NetworkManager;
 import net.alexander.backdata.service.ServiceManager;
 import net.alexander.backdata.user.User;
 import net.alexander.backdata.user.UserManager;
@@ -39,6 +42,7 @@ public class BackData {
     @Getter private ConsoleManager consoleManager;
     @Getter private EventManager eventManager;
     @Getter private DatabaseManager databaseManager;
+    @Getter private NetworkManager networkManager;
 
     public BackData() {
 
@@ -72,9 +76,13 @@ public class BackData {
             shutdown();
         }));
 
-        initCommands();
         initManager();
+        initCommands();
         initEvents();
+        /**
+         * Not loaded in 'initManager' because it would block the main thread
+         */
+        this.consoleManager = new ConsoleManager();
     }
 
     public void shutdown() {
@@ -111,6 +119,7 @@ public class BackData {
 
         fileLoader.set("IP", ip);
         fileLoader.set("Port", port);
+        fileLoader.save();
         this.loggerManager.log("The login:");
         this.loggerManager.log("Username: root");
         this.loggerManager.log("Password: Backyard");
@@ -142,14 +151,16 @@ public class BackData {
         this.databaseManager = new DatabaseManager();
         ServiceManager.registerService(DatabaseManager.class, databaseManager);
 
-        this.consoleManager = new ConsoleManager();
+        this.networkManager = new NetworkManager();
+        ServiceManager.registerService(NetworkManager.class, networkManager);
     }
 
     /**
      * Initializing all Commands
      */
     private void initCommands() {
-
+        commandManager.registerCommand(new HelpCommand("help"));
+        commandManager.registerCommand(new ExitCommand("exit"));
     }
 
     private void initEvents() {

@@ -18,8 +18,6 @@ public class CommandManager implements Service {
 
     public CommandManager() {
         commands = new HashMap<>();
-        registerCommand(new HelpCommand("help"));
-        registerCommand(new ExitCommand("exit"));
     }
 
     public void registerCommand(Command command) {

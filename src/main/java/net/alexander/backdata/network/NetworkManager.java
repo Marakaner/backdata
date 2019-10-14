@@ -3,18 +3,20 @@ package net.alexander.backdata.network;
 import net.alexander.backdata.BackData;
 import net.alexander.backdata.file.FileLoader;
 import net.alexander.backdata.log.LoggerManager;
+import net.alexander.backdata.service.Service;
 import net.alexander.backdata.service.ServiceManager;
 import org.apache.log4j.Priority;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-public class NetworkManager extends Thread {
+public class NetworkManager extends Thread implements Service {
 
     private LoggerManager loggerManager = ServiceManager.getService(LoggerManager.class);
 
@@ -27,11 +29,12 @@ public class NetworkManager extends Thread {
 
     public NetworkManager() {
         clients = new HashMap<>();
+        setDaemon(true);
+        start();
     }
 
     @Override
     public void run() {
-        setDaemon(true);
         try {
             init();
 
@@ -39,6 +42,7 @@ public class NetworkManager extends Thread {
             while ((client = server.accept()) != null) {
                 UUID uniqueId = UUID.randomUUID();
                 this.clients.put(uniqueId, new Client(uniqueId, client));
+                loggerManager.log("Client[IP: " + client.getInetAddress().getHostAddress() + " / UUID: " + uniqueId.toString() + "] connected");
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -48,15 +52,20 @@ public class NetworkManager extends Thread {
     private void init() throws IOException {
         FileLoader fileLoader = new FileLoader(new File("BackData/config.bd"));
         fileLoader.load();
-        this.ip = (String) fileLoader.get("ip");
-        this.port = (int) fileLoader.get("port");
+        this.ip = (String) fileLoader.get("IP");
+        this.port = Integer.parseInt((String) fileLoader.get("Port"));
 
-        if(this.ip == null || this.port == -1) {
+        if (this.ip == null || this.port == -1) {
             loggerManager.log(Priority.ERROR, "IP or Port is empty in config.bd");
             BackData.getInstance().shutdown();
         }
 
         this.server = new ServerSocket(port);
+    }
+
+    public void unregisterClient(UUID uniqueId) {
+        loggerManager.log("Client[IP: " + clients.get(uniqueId).getSocket().getInetAddress().getHostAddress() + " / UUID: " + uniqueId.toString() + "] disconnected");
+        this.clients.remove(uniqueId);
     }
 
 }

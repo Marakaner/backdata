@@ -26,6 +26,8 @@ public class Client extends Thread {
     public Client(UUID uniqueId, Socket socket) {
         this.uniqueId = uniqueId;
         this.socket = socket;
+        setDaemon(true);
+        start();
     }
 
     @Override
@@ -35,24 +37,29 @@ public class Client extends Thread {
 
             String message;
 
-            while ((message = bufferedReader.readLine()) != null) {
-                JsonParser jsonParser = new JsonParser();
-                Object object = jsonParser.parse(message);
-                if(object instanceof JsonObject) {
-                    JsonObject jsonObject = (JsonObject) object;
+            try {
+                while ((message = bufferedReader.readLine()) != null) {
+                    JsonParser jsonParser = new JsonParser();
+                    Object object = jsonParser.parse(message);
+                    if (object instanceof JsonObject) {
+                        JsonObject jsonObject = (JsonObject) object;
 
-                    if(this.user != null) {
-                        MessageReceivedEvent event = new MessageReceivedEvent(this, jsonObject);
-                        BackData.getInstance().getEventManager().fireEvent(event);
+                        if (this.user != null) {
+                            MessageReceivedEvent event = new MessageReceivedEvent(this, jsonObject);
+                            BackData.getInstance().getEventManager().fireEvent(event);
 
-                        if(event.isCancelled()) return;
+                            if (event.isCancelled()) return;
 
-                        BackData.getInstance().getDatabaseManager().handleRequest(this, jsonObject);
+                            BackData.getInstance().getDatabaseManager().handleRequest(this, jsonObject);
 
-                    } else {
-                        verify(jsonObject);
+                        } else {
+                            verify(jsonObject);
+                        }
                     }
                 }
+            } catch (Exception ignored) {
+            } finally {
+                BackData.getInstance().getNetworkManager().unregisterClient(uniqueId);
             }
         } catch (IOException e) {
             e.printStackTrace();

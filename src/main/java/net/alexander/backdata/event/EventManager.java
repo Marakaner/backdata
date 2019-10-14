@@ -8,11 +8,12 @@ import java.lang.reflect.Parameter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class EventManager implements Service {
 
     private List<Class> events;
-    private HashMap<Class, List<Method>> listener;
+    private Map<Class, List<Method>> listener;
 
     public EventManager() {
         this.events = new ArrayList<>();
@@ -46,11 +47,7 @@ public class EventManager implements Service {
         for(Method method : listener.get(event.getClass())) {
             try {
                 method.invoke(method.getDeclaringClass().newInstance(), event);
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            } catch (InvocationTargetException e) {
-                e.printStackTrace();
-            } catch (InstantiationException e) {
+            } catch (IllegalAccessException | InvocationTargetException | InstantiationException e) {
                 e.printStackTrace();
             }
         }
