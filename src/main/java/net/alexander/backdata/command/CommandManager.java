@@ -1,7 +1,5 @@
 package net.alexander.backdata.command;
 
-import net.alexander.backdata.command.commands.ExitCommand;
-import net.alexander.backdata.command.commands.HelpCommand;
 import net.alexander.backdata.log.LoggerManager;
 import net.alexander.backdata.service.Service;
 import net.alexander.backdata.service.ServiceManager;

@@ -1,10 +1,8 @@
 package net.alexander.backdata.network;
 
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import net.alexander.backdata.BackData;
-import net.alexander.backdata.event.Event;
 import net.alexander.backdata.event.events.MessageReceivedEvent;
 import net.alexander.backdata.event.events.MessageSendEvent;
 import net.alexander.backdata.user.User;

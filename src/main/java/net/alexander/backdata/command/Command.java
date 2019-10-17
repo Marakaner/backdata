@@ -1,27 +1,28 @@
 package net.alexander.backdata.command;
 
+import lombok.Getter;
+import net.alexander.backdata.log.LoggerManager;
+import net.alexander.backdata.service.ServiceManager;
+import org.apache.log4j.Priority;
+
 public abstract class Command {
 
-    private String name;
-    private String permission;
+    private LoggerManager loggerManager = ServiceManager.getService(LoggerManager.class);
 
-    public Command(String name, String permission) {
-        this.name = name;
-        this.permission = permission;
-    }
+    @Getter private String name;
 
     public Command(String name) {
-        this(name, null);
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getPermission() {
-        return permission;
+        this.name = name;
     }
 
     public abstract void execute(String[] args);
+
+    public void log(String message) {
+        loggerManager.log(message);
+    }
+
+    public void log(Priority priority, String message) {
+        loggerManager.log(priority, message);
+    }
 
 }
