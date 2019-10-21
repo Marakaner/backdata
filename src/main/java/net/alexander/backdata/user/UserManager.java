@@ -42,7 +42,7 @@ public class UserManager implements Service {
     public User login(String username, String password) {
         if(isUserExisting(username)) {
             User user = getUser(username);
-            if(user.password.equals(password)) {
+            if(user.getPassword().equals(password)) {
                 return user;
             }
         }

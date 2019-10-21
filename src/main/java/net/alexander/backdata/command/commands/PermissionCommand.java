@@ -11,5 +11,9 @@ public class PermissionCommand extends Command {
     @Override
     public void execute(String[] args) {
 
+        if(args.length == 0) {
+
+        }
+
     }
 }

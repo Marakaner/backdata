@@ -7,10 +7,10 @@ import java.util.List;
 
 public class User {
 
-    public int id;
-    public String username;
-    public String password;
-    public List<String> permission;
+    private int id;
+    private String username;
+    private String password;
+    private List<String> permission;
 
     User(int id, String username, String password) {
         this.id = id;
@@ -43,6 +43,10 @@ public class User {
 
     public String getPassword() {
         return password;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getUsername() {
