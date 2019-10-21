@@ -8,7 +8,7 @@ import net.alexander.backdata.service.ServiceManager;
 import java.util.Scanner;
 
 public class ConsoleManager {
-    
+
 
     LoggerManager logger = ServiceManager.getService(LoggerManager.class);
 
