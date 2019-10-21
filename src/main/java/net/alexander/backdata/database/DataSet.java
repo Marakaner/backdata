@@ -3,6 +3,7 @@ package net.alexander.backdata.database;
 import lombok.Getter;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class DataSet {
@@ -13,8 +14,8 @@ public class DataSet {
         this.entries = new HashMap<>();
     }
 
-    public <T> T getEntry(String key) {
-        return (T) entries.getOrDefault(key, null);
+    public Entry getEntry(String key) {
+        return entries.getOrDefault(key, null);
     }
 
     public void setEntry(String key, Entry value) {

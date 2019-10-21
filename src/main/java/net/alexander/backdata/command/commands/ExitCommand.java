@@ -7,15 +7,18 @@ import net.alexander.backdata.service.ServiceManager;
 
 public class ExitCommand extends Command {
 
-    LoggerManager logger = ServiceManager.getService(LoggerManager.class);
-
     public ExitCommand(String name) {
         super(name);
     }
 
     @Override
     public void execute(String[] args) {
-        logger.log("The Database is now shutting down...");
+        log("The Database is now shutting down...");
         BackData.getInstance().shutdown();
+    }
+
+    @Override
+    public void log(String message) {
+        super.log(message);
     }
 }

@@ -1,6 +1,8 @@
 package net.alexander.backdata.database;
 
 import lombok.Getter;
+import net.alexander.backdata.database.entries.NumberEntry;
+import net.alexander.backdata.database.entries.StringEntry;
 
 import java.util.List;
 
@@ -13,11 +15,36 @@ public class Table {
         this.name = name;
     }
 
-    public DataSet getDataSet(String key) {
+    public Entry getDataSet(String searchingKey, String givenKey, String givenValue) {
         for(DataSet dataSet : dataSets) {
-            for(String dataKey : dataSet.getEntries().keySet()) {
-                if(dataKey.equals(key)) {
-                    return dataSet;
+            for(String key : dataSet.getEntries().keySet()) {
+                if(key.equals(searchingKey)) {
+                    if(dataSet.getEntry(givenKey) != null) {
+                        if(dataSet.getEntry(givenKey) instanceof StringEntry) {
+                            StringEntry entry = (StringEntry) dataSet.getEntry(givenKey);
+                            if (entry.getString().equals(givenValue)) {
+                                return dataSet.getEntry(searchingKey);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
+    public Entry getDataSet(String searchingKey, String givenKey, double givenValue) {
+        for(DataSet dataSet : dataSets) {
+            for(String key : dataSet.getEntries().keySet()) {
+                if(key.equals(searchingKey)) {
+                    if(dataSet.getEntry(givenKey) != null) {
+                        if(dataSet.getEntry(givenKey) instanceof NumberEntry) {
+                            NumberEntry entry = (NumberEntry) dataSet.getEntry(givenKey);
+                            if (entry.getNumber().doubleValue() == givenValue) {
+                                return dataSet.getEntry(searchingKey);
+                            }
+                        }
+                    }
                 }
             }
         }
