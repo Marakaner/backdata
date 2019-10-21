@@ -1,19 +1,19 @@
 package net.alexander.backdata.database.entries;
 
-import lombok.Getter;
 import net.alexander.backdata.database.Entry;
 import net.alexander.backdata.database.EntryType;
 
-public class StringEntry implements Entry {
+public class ShortEntry implements Entry {
 
-    @Getter private String value;
+    private short value;
 
-    public StringEntry(String value) {
+    public ShortEntry(short value) {
         this.value = value;
     }
 
+
     @Override
     public EntryType getType() {
-        return EntryType.NUMBER;
+        return EntryType.SHORT;
     }
 }

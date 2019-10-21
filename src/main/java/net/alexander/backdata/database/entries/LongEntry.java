@@ -5,13 +5,13 @@ import lombok.Setter;
 import net.alexander.backdata.database.Entry;
 import net.alexander.backdata.database.EntryType;
 
-public class NumberEntry implements Entry {
+public class LongEntry implements Entry {
 
     @Getter @Setter
-    private Number number;
+    private long value;
 
-    public NumberEntry(Number number) {
-        this.number = number;
+    public LongEntry(long value) {
+        this.value = value;
     }
 
     @Override

@@ -6,6 +6,12 @@ public enum EntryType {
     BOOLEAN("Boolean"),
     STRING("String"),
     NUMBER("Number"),
+    SHORT("Short"),
+    BYTE("Byte"),
+    CHARACTER("Character"),
+    INTEGER("Integer"),
+    LONG("Long"),
+    DOUBLE("Double"),
     ERROR("Error");
 
     private String name;

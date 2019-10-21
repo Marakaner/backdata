@@ -1,7 +1,7 @@
 package net.alexander.backdata.database;
 
 import lombok.Getter;
-import net.alexander.backdata.database.entries.NumberEntry;
+import net.alexander.backdata.database.entries.LongEntry;
 import net.alexander.backdata.database.entries.StringEntry;
 
 import java.util.List;
@@ -38,8 +38,8 @@ public class Table {
             for(String key : dataSet.getEntries().keySet()) {
                 if(key.equals(searchingKey)) {
                     if(dataSet.getEntry(givenKey) != null) {
-                        if(dataSet.getEntry(givenKey) instanceof NumberEntry) {
-                            NumberEntry entry = (NumberEntry) dataSet.getEntry(givenKey);
+                        if(dataSet.getEntry(givenKey) instanceof LongEntry) {
+                            LongEntry entry = (LongEntry) dataSet.getEntry(givenKey);
                             if (entry.getNumber().doubleValue() == givenValue) {
                                 return dataSet.getEntry(searchingKey);
                             }

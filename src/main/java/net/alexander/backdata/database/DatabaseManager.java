@@ -3,7 +3,7 @@ package net.alexander.backdata.database;
 import com.google.gson.JsonObject;
 import lombok.Getter;
 import net.alexander.backdata.database.entries.ArrayEntry;
-import net.alexander.backdata.database.entries.NumberEntry;
+import net.alexander.backdata.database.entries.LongEntry;
 import net.alexander.backdata.event.EventManager;
 import net.alexander.backdata.network.Client;
 import net.alexander.backdata.service.Service;
@@ -72,8 +72,8 @@ public class DatabaseManager implements Service {
                         break;
 
                     case NUMBER:
-                        NumberEntry numberEntry = (NumberEntry) returnValue;
-                        client.write(new Document().addString("id", id.toString()).addString("type", returnValue.getType().getName()).addArray("value", numberEntry.getNumber()).create());
+                        LongEntry longEntry = (LongEntry) returnValue;
+                        client.write(new Document().addString("id", id.toString()).addString("type", returnValue.getType().getName()).addArray("value", longEntry.getValue()).create());
                         break;
 
                     case STRING:
