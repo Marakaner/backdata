@@ -53,18 +53,30 @@ public class DatabaseManager implements Service {
 
                 Entry returnValue = null;
 
+                if(entryType == null) return;
+
                 if(entryType == EntryType.STRING) {
                     returnValue = table.getDataSet(searchingKey, givenKey, givenValue);
-                } else if(entryType == EntryType.NUMBER) {
+                } else if(entryType == EntryType.INTEGER
+                        || entryType == EntryType.DOUBLE
+                        || entryType == EntryType.LONG
+                        || entryType == EntryType.FLOAT
+                        || entryType == EntryType.BYTE
+                        || entryType == EntryType.SHORT) {
                     assert givenKey != null;
-                    returnValue = table.getDataSet(searchingKey, givenKey, Double.parseDouble(givenKey));
+                    returnValue = table.getDataSet(searchingKey, givenKey, givenValue);
+                } else if(entryType == EntryType.BOOLEAN) {
+                    returnValue = table.getDataSet(searchingKey, givenKey, givenValue);
+                } else if(entryType == EntryType.CHARACTER) {
+                    returnValue = table.getDataSet(searchingKey, givenKey, givenValue);
                 }
 
-                assert returnValue != null;
+                if(returnValue == null) return;
+
                 switch (returnValue.getType()) {
                     case ARRAY:
                         ArrayEntry arrayEntry = (ArrayEntry) returnValue;
-                        if(arrayEntry.getEntryType() == EntryType.NUMBER) {
+                        if(arrayEntry.getEntryType() == EntryType.INTEGER) {
 
                         } else {
 
@@ -74,7 +86,7 @@ public class DatabaseManager implements Service {
                     case INTEGER:
 
                         break;
-                    case NUMBER:
+                    case LONG:
                         LongEntry longEntry = (LongEntry) returnValue;
                         client.write(new Document().addString("id", id.toString()).addString("type", returnValue.getType().getName()).addArray("value", longEntry.getValue()).create());
                         break;
