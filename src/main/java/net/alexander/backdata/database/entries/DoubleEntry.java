@@ -1,19 +1,22 @@
 package net.alexander.backdata.database.entries;
 
 import lombok.Getter;
+import lombok.Setter;
 import net.alexander.backdata.database.Entry;
 import net.alexander.backdata.database.EntryType;
 
-public class StringEntry implements Entry {
+public class DoubleEntry implements Entry {
 
-    @Getter private String value;
+    @Getter @Setter
+    private Double value;
 
-    public StringEntry(String value) {
+    public DoubleEntry(Double value) {
         this.value = value;
     }
 
+
     @Override
     public EntryType getType() {
-        return EntryType.STRING;
+        return EntryType.DOUBLE;
     }
 }

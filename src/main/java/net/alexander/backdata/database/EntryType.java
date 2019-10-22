@@ -5,13 +5,13 @@ public enum EntryType {
     ARRAY("Array"),
     BOOLEAN("Boolean"),
     STRING("String"),
-    NUMBER("Number"),
     SHORT("Short"),
     BYTE("Byte"),
     CHARACTER("Character"),
     INTEGER("Integer"),
     LONG("Long"),
     DOUBLE("Double"),
+    FLOAT("Float"),
     ERROR("Error");
 
     private String name;

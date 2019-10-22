@@ -1,19 +1,18 @@
 package net.alexander.backdata.database.entries;
 
-import lombok.Getter;
 import net.alexander.backdata.database.Entry;
 import net.alexander.backdata.database.EntryType;
 
-public class StringEntry implements Entry {
+public class CharacterEntry implements Entry {
 
-    @Getter private String value;
+    private Character value;
 
-    public StringEntry(String value) {
+    public CharacterEntry(Character value) {
         this.value = value;
     }
 
     @Override
     public EntryType getType() {
-        return EntryType.STRING;
+        return EntryType.CHARACTER;
     }
 }

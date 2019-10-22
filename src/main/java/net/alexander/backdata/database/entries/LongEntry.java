@@ -16,6 +16,6 @@ public class LongEntry implements Entry {
 
     @Override
     public EntryType getType() {
-        return EntryType.NUMBER;
+        return EntryType.LONG;
     }
 }

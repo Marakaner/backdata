@@ -71,6 +71,9 @@ public class DatabaseManager implements Service {
                         }
                         break;
 
+                    case INTEGER:
+
+                        break;
                     case NUMBER:
                         LongEntry longEntry = (LongEntry) returnValue;
                         client.write(new Document().addString("id", id.toString()).addString("type", returnValue.getType().getName()).addArray("value", longEntry.getValue()).create());
