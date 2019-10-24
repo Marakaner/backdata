@@ -2,6 +2,13 @@ package net.alexander.backdata.util;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import net.alexander.backdata.database.EntryType;
+import net.alexander.backdata.database.IEntry;
+import net.alexander.backdata.database.INumberEntry;
+import net.alexander.backdata.database.entries.ArrayEntry;
+import net.alexander.backdata.database.entries.BooleanEntry;
+import net.alexander.backdata.database.entries.CharacterEntry;
+import net.alexander.backdata.database.entries.StringEntry;
 
 import java.util.Arrays;
 import java.util.List;
@@ -33,31 +40,35 @@ public class Document {
         return this;
     }
 
-    public Document addArray(String key, String... value) {
-        addStringList(key, Arrays.asList(value));
-        return this;
-    }
-
-    public Document addStringList(String key, List<String> value) {
+    public Document addArray(String key, ArrayEntry arrayEntry) {
         JsonArray jsonArray = new JsonArray();
-        for(String all : value) {
-            jsonArray.add(all);
-        }
-        this.jsonObject.add(key, jsonArray);
-        return this;
-    }
 
-    public Document addArray(String key, Number... value) {
-        addNumberList(key, Arrays.asList(value));
-        return this;
-    }
+        if(arrayEntry.getEntryType() == EntryType.STRING) {
+            for(IEntry all : arrayEntry.getValue()) {
+                jsonArray.add(((StringEntry) all).getValue());
+            }
 
-    public Document addNumberList(String key, List<Number> value) {
-        JsonArray jsonArray = new JsonArray();
-        for(Number all : value) {
-            jsonArray.add(all);
+        } else if(arrayEntry.getEntryType() == EntryType.INTEGER
+                || arrayEntry.getEntryType() == EntryType.DOUBLE
+                || arrayEntry.getEntryType() == EntryType.LONG
+                || arrayEntry.getEntryType() == EntryType.FLOAT
+                || arrayEntry.getEntryType() == EntryType.BYTE
+                || arrayEntry.getEntryType() == EntryType.SHORT) {
+
+            for(IEntry all : arrayEntry.getValue()) {
+                INumberEntry entry = (INumberEntry) all;
+                jsonArray.add((Number) entry.getNumberValue());
+            }
+        } else if(arrayEntry.getEntryType() == EntryType.CHARACTER) {
+            for(IEntry all : arrayEntry.getValue()) {
+                jsonArray.add(((CharacterEntry) all).getValue());
+            }
+        } else if(arrayEntry.getEntryType() == EntryType.BOOLEAN) {
+            for(IEntry all : arrayEntry.getValue()) {
+                jsonArray.add(((BooleanEntry) all).isValue());
+            }
         }
-        this.jsonObject.add(key, jsonArray);
+
         return this;
     }
 

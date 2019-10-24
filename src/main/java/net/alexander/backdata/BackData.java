@@ -27,22 +27,34 @@ import java.util.Scanner;
 
 public class BackData {
 
-    @Getter @Setter private boolean running;
+    @Getter
+    @Setter
+    private boolean running;
 
-    @Getter private static BackData instance;
-    @Getter private Gson publicGson;
+    @Getter
+    private static BackData instance;
+    @Getter
+    private Gson publicGson;
 
     /**
      * All Manager
      */
-    @Getter private LoginManager loginManager;
-    @Getter private CommandManager commandManager;
-    @Getter private LoggerManager loggerManager;
-    @Getter private UserManager userManager;
-    @Getter private ConsoleManager consoleManager;
-    @Getter private EventManager eventManager;
-    @Getter private DatabaseManager databaseManager;
-    @Getter private NetworkManager networkManager;
+    @Getter
+    private LoginManager loginManager;
+    @Getter
+    private CommandManager commandManager;
+    @Getter
+    private LoggerManager loggerManager;
+    @Getter
+    private UserManager userManager;
+    @Getter
+    private ConsoleManager consoleManager;
+    @Getter
+    private EventManager eventManager;
+    @Getter
+    private DatabaseManager databaseManager;
+    @Getter
+    private NetworkManager networkManager;
 
     public BackData() {
 
@@ -52,7 +64,7 @@ public class BackData {
 
         publicGson = new GsonBuilder().setPrettyPrinting().create();
 
-        if(folder.exists()) {
+        if (folder.exists()) {
             running = true;
             init();
         } else {

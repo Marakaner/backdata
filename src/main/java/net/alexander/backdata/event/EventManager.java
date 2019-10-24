@@ -23,11 +23,11 @@ public class EventManager implements Service {
     public void registerListener(Listener listener) {
         Class clazz = listener.getClass();
 
-        for(Method method : clazz.getMethods()) {
-            if(method.isAnnotationPresent(EventHandler.class)) {
-                for(Parameter parameter : method.getParameters()) {
-                    for(Class event : events) {
-                        if(parameter.getType().equals(event)) {
+        for (Method method : clazz.getMethods()) {
+            if (method.isAnnotationPresent(EventHandler.class)) {
+                for (Parameter parameter : method.getParameters()) {
+                    for (Class event : events) {
+                        if (parameter.getType().equals(event)) {
                             this.listener.get(event).add(method);
                         }
                     }
@@ -37,14 +37,14 @@ public class EventManager implements Service {
     }
 
     public void registerEvent(Class event) {
-        if((!this.events.contains(event)) || (!this.listener.containsKey(event))) {
+        if ((!this.events.contains(event)) || (!this.listener.containsKey(event))) {
             this.events.add(event);
             this.listener.put(event, new ArrayList<>());
         }
     }
 
     public void fireEvent(Event event) {
-        for(Method method : listener.get(event.getClass())) {
+        for (Method method : listener.get(event.getClass())) {
             try {
                 method.invoke(method.getDeclaringClass().newInstance(), event);
             } catch (IllegalAccessException | InvocationTargetException | InstantiationException e) {

@@ -2,12 +2,13 @@ package net.alexander.backdata.database.entries;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.alexander.backdata.database.Entry;
 import net.alexander.backdata.database.EntryType;
+import net.alexander.backdata.database.INumberEntry;
 
-public class FloatEntry implements Entry {
+public class FloatEntry implements INumberEntry {
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private Float value;
 
     public FloatEntry(Float value) {
@@ -17,5 +18,10 @@ public class FloatEntry implements Entry {
     @Override
     public EntryType getType() {
         return EntryType.FLOAT;
+    }
+
+    @Override
+    public Object getNumberValue() {
+        return this.value;
     }
 }

@@ -9,7 +9,7 @@ public class HelpCommand extends Command {
     }
 
     public void execute(String[] args) {
-        if(args.length == 0) {
+        if (args.length == 0) {
             log("List of all existing Commands:");
             log("user - Command to manage the user");
             log("permission - Command to manage the permission");

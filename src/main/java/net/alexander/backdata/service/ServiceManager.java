@@ -11,6 +11,11 @@ public class ServiceManager {
         return (T) services.get(clazz);
     }
 
+    /**
+     * Register a internal Service.
+     *
+     * @param clazz has to implement the Service class
+     */
     public static void registerService(Class<Service> clazz) {
         try {
             registerService(clazz, clazz.newInstance());
@@ -20,6 +25,6 @@ public class ServiceManager {
     }
 
     public static void registerService(Class clazz, Service service) {
-        if(!services.containsKey(clazz)) services.put(clazz, service);
+        if (!services.containsKey(clazz)) services.put(clazz, service);
     }
 }

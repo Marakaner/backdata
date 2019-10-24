@@ -19,7 +19,7 @@ public class CommandManager implements Service {
     }
 
     public void registerCommand(Command command) {
-        if(!this.commands.containsKey(command.getName().toLowerCase())) {
+        if (!this.commands.containsKey(command.getName().toLowerCase())) {
             try {
                 this.commands.put(command.getName().toLowerCase(), command);
             } catch (Exception ex) {

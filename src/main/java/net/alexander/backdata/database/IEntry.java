@@ -1,6 +1,6 @@
 package net.alexander.backdata.database;
 
-public interface Entry {
+public interface IEntry {
 
     EntryType getType();
 

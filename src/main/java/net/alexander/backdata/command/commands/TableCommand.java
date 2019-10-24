@@ -10,16 +10,20 @@ public class TableCommand extends Command {
 
     /**
      * table create name
-     *
-     *
+     * table delete name
      */
 
     @Override
     public void execute(String[] args) {
-        if(args.length == 0) {
-
-        } else if(args.length == 1) {
+        if (args.length == 0) {
+            log("");
+        } else if (args.length == 1) {
 
         }
+    }
+
+    @Override
+    public void log(String message) {
+        super.log(message);
     }
 }

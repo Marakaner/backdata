@@ -14,7 +14,7 @@ public class LoggerManager implements Service {
 
     public LoggerManager() {
         File folder = new File("BackData/logs/");
-        if(!folder.exists()) {
+        if (!folder.exists()) {
             folder.mkdir();
         }
 

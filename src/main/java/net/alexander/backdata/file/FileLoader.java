@@ -17,11 +17,11 @@ public class FileLoader {
 
     public void load() {
 
-        if(!this.storage.isEmpty()) {
+        if (!this.storage.isEmpty()) {
             this.storage = new HashMap<>();
         }
 
-        if(this.file.exists()) {
+        if (this.file.exists()) {
             FileReader fR = null;
             BufferedReader bR = null;
             try {
@@ -50,7 +50,7 @@ public class FileLoader {
 
     public void save() {
 
-        if(!this.file.exists()) {
+        if (!this.file.exists()) {
             try {
                 this.file.createNewFile();
             } catch (IOException e) {

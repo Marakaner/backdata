@@ -10,7 +10,7 @@ import java.util.Map;
 
 public class UserManager implements Service {
 
-    private Map<String,User> userMap;
+    private Map<String, User> userMap;
 
     public UserManager() {
         userMap = new HashMap<>();
@@ -25,7 +25,7 @@ public class UserManager implements Service {
     }
 
     public void deleteUser(String name) {
-        if(isUserExisting(name)) {
+        if (isUserExisting(name)) {
             this.userMap.remove(name.toLowerCase());
             saveFile();
         }
@@ -40,9 +40,9 @@ public class UserManager implements Service {
     }
 
     public User login(String username, String password) {
-        if(isUserExisting(username)) {
+        if (isUserExisting(username)) {
             User user = getUser(username);
-            if(user.getPassword().equals(password)) {
+            if (user.getPassword().equals(password)) {
                 return user;
             }
         }
@@ -50,7 +50,7 @@ public class UserManager implements Service {
     }
 
     private void init() {
-        if(!new File("BackData/user/").exists()) {
+        if (!new File("BackData/user/").exists()) {
             new File("BackData/user/").mkdir();
             File userFile = new File("BackData/user/user.json");
             try {
@@ -60,7 +60,7 @@ public class UserManager implements Service {
             }
         } else {
             File userFile = new File("BackData/user/user.json");
-            if(!userFile.exists()) {
+            if (!userFile.exists()) {
                 try {
                     userFile.createNewFile();
                 } catch (IOException e) {
@@ -68,7 +68,8 @@ public class UserManager implements Service {
                 }
             } else {
                 try {
-                    userMap = BackData.getInstance().getPublicGson().fromJson(new FileReader(userFile), new TypeToken<HashMap<String, User>>(){}.getType());
+                    userMap = BackData.getInstance().getPublicGson().fromJson(new FileReader(userFile), new TypeToken<HashMap<String, User>>() {
+                    }.getType());
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 }

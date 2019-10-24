@@ -9,7 +9,8 @@ public abstract class Command {
 
     private LoggerManager loggerManager = ServiceManager.getService(LoggerManager.class);
 
-    @Getter private String name;
+    @Getter
+    private String name;
 
     public Command(String name) {
         this.name = name;

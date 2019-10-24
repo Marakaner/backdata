@@ -11,7 +11,7 @@ public class UserCommand extends Command {
 
     /**
      * Command overview
-     *
+     * <p>
      * user - Help page
      * user list - List all user
      * user create [name] [password]
@@ -22,13 +22,13 @@ public class UserCommand extends Command {
     @Override
     public void execute(String[] args) {
 
-        if(args.length == 0) {
+        if (args.length == 0) {
             log("Exit Help Page");
             log("user help - The help page");
             log("user create [name] [password]");
             log("user delete [name]");
-        } else if(args.length == 1) {
-            if(args[0].equalsIgnoreCase("help")) {
+        } else if (args.length == 1) {
+            if (args[0].equalsIgnoreCase("help")) {
                 log("Exit Help Page");
                 log("user help - The help page");
                 log("user create [name]");
@@ -36,11 +36,11 @@ public class UserCommand extends Command {
             } else {
                 return;
             }
-        } else if(args.length == 2) {
-            if(args[0].equalsIgnoreCase("delete")) {
+        } else if (args.length == 2) {
+            if (args[0].equalsIgnoreCase("delete")) {
                 String name = args[1];
-                if(BackData.getInstance().getUserManager().isUserExisting(name)) {
-                    if(BackData.getInstance().getUserManager().getUserMap().size() > 1) {
+                if (BackData.getInstance().getUserManager().isUserExisting(name)) {
+                    if (BackData.getInstance().getUserManager().getUserMap().size() > 1) {
                         try {
                             BackData.getInstance().getUserManager().deleteUser(name);
                             log("The user '" + name + "' was successfully deleted.");
@@ -54,12 +54,12 @@ public class UserCommand extends Command {
                     log("The user '" + name + "' do not exist.");
                 }
             }
-        } else if(args.length == 3) {
-            if(args[0].equalsIgnoreCase("create")) {
+        } else if (args.length == 3) {
+            if (args[0].equalsIgnoreCase("create")) {
                 String name = args[1];
                 String password = args[2];
 
-                if(!BackData.getInstance().getUserManager().isUserExisting(name)) {
+                if (!BackData.getInstance().getUserManager().isUserExisting(name)) {
                     BackData.getInstance().getUserManager().createUser(name, password);
                     log("The user '" + name + "' was successfully created.");
                 } else {

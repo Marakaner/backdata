@@ -2,12 +2,13 @@ package net.alexander.backdata.database.entries;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.alexander.backdata.database.Entry;
 import net.alexander.backdata.database.EntryType;
+import net.alexander.backdata.database.INumberEntry;
 
-public class LongEntry implements Entry {
+public class LongEntry implements INumberEntry {
 
-    @Getter @Setter
+    @Getter
+    @Setter
     private long value;
 
     public LongEntry(long value) {
@@ -17,5 +18,10 @@ public class LongEntry implements Entry {
     @Override
     public EntryType getType() {
         return EntryType.LONG;
+    }
+
+    @Override
+    public Object getNumberValue() {
+        return this.value;
     }
 }

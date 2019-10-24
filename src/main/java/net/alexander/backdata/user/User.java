@@ -28,14 +28,14 @@ public class User {
     }
 
     public void addPermission(String permission) {
-        if(!hasPermission(permission)) {
+        if (!hasPermission(permission)) {
             this.permission.add(permission);
             BackData.getInstance().getUserManager().saveFile();
         }
     }
 
     public void removePermission(String permission) {
-        if(hasPermission(permission)) {
+        if (hasPermission(permission)) {
             this.permission.remove(permission.toLowerCase());
             BackData.getInstance().getUserManager().saveFile();
         }

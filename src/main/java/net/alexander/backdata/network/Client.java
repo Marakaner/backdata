@@ -64,11 +64,14 @@ public class Client extends Thread {
         }
     }
 
+    /**
+     * @param jsonObject
+     */
     public void write(JsonObject jsonObject) {
 
         MessageSendEvent event = new MessageSendEvent(this, jsonObject);
         BackData.getInstance().getEventManager().fireEvent(event);
-        if(event.isCancelled()) return;
+        if (event.isCancelled()) return;
 
         try {
             new PrintStream(socket.getOutputStream()).println(jsonObject.toString());
@@ -81,7 +84,7 @@ public class Client extends Thread {
         String username = jsonObject.get("username").getAsString();
         String password = jsonObject.get("password").getAsString();
         User user = BackData.getInstance().getUserManager().login(username, password);
-        if(user != null) {
+        if (user != null) {
             this.user = user;
             write(new Document().addBoolean("response", true).addString("value", "You successfully logged in").create());
         } else {

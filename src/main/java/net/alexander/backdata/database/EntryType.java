@@ -25,8 +25,8 @@ public enum EntryType {
     }
 
     public static EntryType getByName(String name) {
-        for(EntryType all : EntryType.values()) {
-            if(all.getName().equalsIgnoreCase(name)) {
+        for (EntryType all : EntryType.values()) {
+            if (all.getName().equalsIgnoreCase(name)) {
                 return all;
             }
         }
