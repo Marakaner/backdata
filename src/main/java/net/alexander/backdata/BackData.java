@@ -14,7 +14,6 @@ import net.alexander.backdata.event.events.MessageReceivedEvent;
 import net.alexander.backdata.event.events.MessageSendEvent;
 import net.alexander.backdata.file.FileLoader;
 import net.alexander.backdata.log.LoggerManager;
-import net.alexander.backdata.login.LoginManager;
 import net.alexander.backdata.network.NetworkManager;
 import net.alexander.backdata.service.ServiceManager;
 import net.alexander.backdata.user.User;
@@ -39,8 +38,6 @@ public class BackData {
     /**
      * All Manager
      */
-    @Getter
-    private LoginManager loginManager;
     @Getter
     private CommandManager commandManager;
     @Getter
@@ -147,9 +144,6 @@ public class BackData {
     private void initManager() {
         this.loggerManager = new LoggerManager();
         ServiceManager.registerService(LoggerManager.class, loggerManager);
-
-        this.loginManager = new LoginManager();
-        ServiceManager.registerService(LoginManager.class, loginManager);
 
         this.commandManager = new CommandManager();
         ServiceManager.registerService(CommandManager.class, commandManager);

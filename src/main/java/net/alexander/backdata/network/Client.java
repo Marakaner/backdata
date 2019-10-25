@@ -1,7 +1,9 @@
 package net.alexander.backdata.network;
 
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import lombok.Getter;
 import net.alexander.backdata.BackData;
 import net.alexander.backdata.event.events.MessageReceivedEvent;
 import net.alexander.backdata.event.events.MessageSendEvent;
@@ -19,9 +21,10 @@ public class Client extends Thread {
 
     private boolean alive;
 
-    private UUID uniqueId;
-    private Socket socket;
-    private User user;
+    @Getter private UUID uniqueId;
+    @Getter private Socket socket;
+    @Getter private User user;
+    @Getter private ClientType clientType;
 
     public Client(UUID uniqueId, Socket socket) {
         this.uniqueId = uniqueId;
@@ -41,9 +44,9 @@ public class Client extends Thread {
             try {
                 while ((message = bufferedReader.readLine()) != null) {
                     JsonParser jsonParser = new JsonParser();
-                    Object object = jsonParser.parse(message);
-                    if (object instanceof JsonObject) {
-                        JsonObject jsonObject = (JsonObject) object;
+                    JsonElement element = jsonParser.parse(message);
+                    if (element instanceof JsonObject) {
+                        JsonObject jsonObject = (JsonObject) element;
 
                         if (this.user != null) {
                             MessageReceivedEvent event = new MessageReceivedEvent(this, jsonObject);
@@ -51,8 +54,11 @@ public class Client extends Thread {
 
                             if (event.isCancelled()) return;
 
-                            BackData.getInstance().getDatabaseManager().handleRequest(this, jsonObject);
+                            if(jsonObject.get("id").getAsString().equalsIgnoreCase("pipeline")) {
 
+                            } else {
+                                BackData.getInstance().getDatabaseManager().handleRequest(this, jsonObject);
+                            }
                         } else {
                             verify(jsonObject);
                         }
@@ -77,7 +83,9 @@ public class Client extends Thread {
         if (event.isCancelled()) return;
 
         try {
-            new PrintStream(socket.getOutputStream()).println(jsonObject.toString());
+            PrintStream printStream = new PrintStream(socket.getOutputStream());
+            printStream.println(jsonObject.toString());
+            printStream.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -86,9 +94,12 @@ public class Client extends Thread {
     public void verify(JsonObject jsonObject) {
         String username = jsonObject.get("username").getAsString();
         String password = jsonObject.get("password").getAsString();
+
         User user = BackData.getInstance().getUserManager().login(username, password);
         if (user != null) {
             this.user = user;
+            this.clientType = ClientType.getByName(jsonObject.get("type").getAsString());
+
             write(new Document().addBoolean("response", true).addString("value", "You successfully logged in").create());
         } else {
             write(new Document().addBoolean("response", false).addString("value", "Wrong username or password").create());

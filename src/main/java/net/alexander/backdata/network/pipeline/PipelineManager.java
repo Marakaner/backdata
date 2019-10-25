@@ -1,11 +1,11 @@
-package net.alexander.backdata.login;
+package net.alexander.backdata.network.pipeline;
 
 import net.alexander.backdata.service.Service;
 
-public class LoginManager implements Service {
+public class PipelineManager implements Service {
 
-    public LoginManager() {
-    }
+
+
 
     @Override
     public String getName() {

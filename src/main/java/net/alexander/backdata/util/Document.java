@@ -10,9 +10,6 @@ import net.alexander.backdata.database.entries.BooleanEntry;
 import net.alexander.backdata.database.entries.CharacterEntry;
 import net.alexander.backdata.database.entries.StringEntry;
 
-import java.util.Arrays;
-import java.util.List;
-
 public class Document {
 
     private JsonObject jsonObject;
