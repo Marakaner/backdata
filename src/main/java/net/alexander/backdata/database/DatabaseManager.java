@@ -127,6 +127,19 @@ public class DatabaseManager implements Service {
                 .create());
     }
 
+    public boolean isTableExist(String name) {
+        if(this.tables.containsKey(name)) {
+            return true;
+        }
+        return false;
+    }
+
+    public void createTable(String name) {
+        if(isTableExist(name)) {
+            this.tables.put(name, new Table(name));
+        }
+    }
+
     @Override
     public String getName() {
         return this.getClass().getSimpleName();

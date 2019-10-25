@@ -1,6 +1,8 @@
 package net.alexander.backdata.command.commands;
 
+import net.alexander.backdata.BackData;
 import net.alexander.backdata.command.Command;
+import net.alexander.backdata.database.DatabaseManager;
 
 public class TableCommand extends Command {
 
@@ -15,10 +17,27 @@ public class TableCommand extends Command {
 
     @Override
     public void execute(String[] args) {
-        if (args.length == 0) {
-            log("");
-        } else if (args.length == 1) {
 
+        DatabaseManager databaseManager = BackData.getInstance().getDatabaseManager();
+
+        if (args.length == 0) {
+            log("Table Help Page");
+            log("table create [tablename]");
+            log("table delete [tablename]");
+        } else if (args.length == 2) {
+            if(args[0].equalsIgnoreCase("create")) {
+                if(databaseManager.isTableExist(args[1])) {
+
+                } else {
+                    log("The table '" + args[1] + "' already exist.");
+                }
+            } else if(args[0].equalsIgnoreCase("delete")) {
+
+            } else {
+                log("Wrong syntax.");
+            }
+        } else {
+            log("Wrong syntax");
         }
     }
 

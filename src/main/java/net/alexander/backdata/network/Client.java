@@ -17,6 +17,8 @@ import java.util.UUID;
 
 public class Client extends Thread {
 
+    private boolean alive;
+
     private UUID uniqueId;
     private Socket socket;
     private User user;
@@ -24,6 +26,7 @@ public class Client extends Thread {
     public Client(UUID uniqueId, Socket socket) {
         this.uniqueId = uniqueId;
         this.socket = socket;
+        alive = true;
         setDaemon(true);
         start();
     }
@@ -89,6 +92,7 @@ public class Client extends Thread {
             write(new Document().addBoolean("response", true).addString("value", "You successfully logged in").create());
         } else {
             write(new Document().addBoolean("response", false).addString("value", "Wrong username or password").create());
+            alive = false;
         }
     }
 
