@@ -72,7 +72,7 @@ public class DatabaseManager implements Service {
                 switch (returnValue.getType()) {
                     case ARRAY:
                         ArrayEntry arrayEntry = (ArrayEntry) returnValue;
-                        client.write(new Document().addString("id", id.toString()).addString("type", returnValue.getType().getName()).addArray("value", arrayEntry).create());
+                        client.write(new Document().addString("id", id.toString()).addString("type", returnValue.getType().getName()).addString("arrayType", arrayEntry.getEntryType().getName()).addArray("value", arrayEntry).create());
                         break;
 
                     case INTEGER:
@@ -98,6 +98,11 @@ public class DatabaseManager implements Service {
                     case FLOAT:
                         FloatEntry floatEntry = (FloatEntry) returnValue;
                         client.write(new Document().addString("id", id.toString()).addString("type", returnValue.getType().getName()).addNumber("value", floatEntry.getValue()).create());
+                        break;
+
+                    case SHORT:
+                        ShortEntry shortEntry = (ShortEntry) returnValue;
+                        client.write(new Document().addString("id", id.toString()).addString("type", returnValue.getType().getName()).addNumber("value", shortEntry.getValue()).create());
                         break;
 
                     case STRING:
