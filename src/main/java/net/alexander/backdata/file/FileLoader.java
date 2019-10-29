@@ -67,7 +67,7 @@ public class FileLoader {
             bW = new BufferedWriter(fW);
 
             for (String current : this.storage.keySet()) {
-                bW.write(current + ":" + this.storage.get(current));
+                bW.write(current + "," + this.storage.get(current));
                 bW.newLine();
             }
         } catch (IOException e) {

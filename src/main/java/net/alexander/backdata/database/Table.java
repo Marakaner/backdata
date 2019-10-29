@@ -3,6 +3,7 @@ package net.alexander.backdata.database;
 import lombok.Getter;
 import net.alexander.backdata.database.entries.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Table {
@@ -14,6 +15,7 @@ public class Table {
 
     public Table(String name) {
         this.name = name;
+        this.dataSets = new ArrayList<>();
     }
 
     public IEntry getDataSet(String searchingKey, String givenKey, String givenValue) {
@@ -22,6 +24,24 @@ public class Table {
                 if (key.equals(searchingKey)) {
                     if (dataSet.getEntry(givenKey) != null) {
                         if (dataSet.getEntry(givenKey) instanceof StringEntry) {
+                            StringEntry entry = (StringEntry) dataSet.getEntry(givenKey);
+                            if (entry.getValue().equals(givenValue)) {
+                                return dataSet.getEntry(searchingKey);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
+    public IEntry getDataSet(String searchingKey, String givenKey, Character givenValue) {
+        for (DataSet dataSet : dataSets) {
+            for (String key : dataSet.getEntries().keySet()) {
+                if (key.equals(searchingKey)) {
+                    if (dataSet.getEntry(givenKey) != null) {
+                        if (dataSet.getEntry(givenKey) instanceof CharacterEntry) {
                             StringEntry entry = (StringEntry) dataSet.getEntry(givenKey);
                             if (entry.getValue().equals(givenValue)) {
                                 return dataSet.getEntry(searchingKey);

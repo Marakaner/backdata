@@ -5,6 +5,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import lombok.Getter;
 import net.alexander.backdata.BackData;
+import net.alexander.backdata.database.EntryType;
 import net.alexander.backdata.event.events.MessageReceivedEvent;
 import net.alexander.backdata.event.events.MessageSendEvent;
 import net.alexander.backdata.user.User;
@@ -26,8 +27,7 @@ public class Client extends Thread {
     @Getter private User user;
     @Getter private ClientType clientType;
 
-    public Client(UUID uniqueId, Socket socket) {
-        this.uniqueId = uniqueId;
+    public Client(Socket socket) {
         this.socket = socket;
         alive = true;
         setDaemon(true);
@@ -43,21 +43,26 @@ public class Client extends Thread {
 
             try {
                 while ((message = bufferedReader.readLine()) != null) {
+
                     JsonParser jsonParser = new JsonParser();
                     JsonElement element = jsonParser.parse(message);
                     if (element instanceof JsonObject) {
                         JsonObject jsonObject = (JsonObject) element;
 
                         if (this.user != null) {
-                            MessageReceivedEvent event = new MessageReceivedEvent(this, jsonObject);
-                            BackData.getInstance().getEventManager().fireEvent(event);
+                            if(BackData.getInstance().getNetworkManager().getClients().containsKey(UUID.fromString(jsonObject.get("id").getAsString()))) {
+                                MessageReceivedEvent event = new MessageReceivedEvent(this, jsonObject);
+                                BackData.getInstance().getEventManager().fireEvent(event);
 
-                            if (event.isCancelled()) return;
+                                if (event.isCancelled()) return;
 
-                            if(jsonObject.get("id").getAsString().equalsIgnoreCase("pipeline")) {
+                                if(jsonObject.get("id").getAsString().equalsIgnoreCase("pipeline")) {
 
+                                } else {
+                                    BackData.getInstance().getDatabaseManager().handleRequest(this, jsonObject);
+                                }
                             } else {
-                                BackData.getInstance().getDatabaseManager().handleRequest(this, jsonObject);
+                                write(new Document().addString("id", jsonObject.get("id").getAsString()).addString("type", EntryType.ERROR.getName()).addString("value", "Could not identify you.").create());
                             }
                         } else {
                             verify(jsonObject);
@@ -100,7 +105,9 @@ public class Client extends Thread {
             this.user = user;
             this.clientType = ClientType.getByName(jsonObject.get("type").getAsString());
 
-            write(new Document().addBoolean("response", true).addString("value", "You successfully logged in").create());
+            this.uniqueId = UUID.randomUUID();
+            BackData.getInstance().getNetworkManager().getClients().put(this.uniqueId, this);
+            write(new Document().addString("id", uniqueId.toString()).addBoolean("response", true).addString("value", "You successfully logged in").create());
         } else {
             write(new Document().addBoolean("response", false).addString("value", "Wrong username or password").create());
             alive = false;

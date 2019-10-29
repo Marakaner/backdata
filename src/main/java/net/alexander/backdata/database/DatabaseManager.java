@@ -18,6 +18,11 @@ public class DatabaseManager implements Service {
 
     public DatabaseManager() {
         this.tables = new HashMap<>();
+        this.tables.put("test", new Table("test"));
+
+        DataSet dataSet = new DataSet();
+        dataSet.setEntry("test", new StringEntry("test"));
+        this.tables.get("test").getDataSets().add(dataSet);
     }
 
     public void handleRequest(Client client, JsonObject jsonObject) {
@@ -52,19 +57,23 @@ public class DatabaseManager implements Service {
                 if (entryType == null) return;
 
                 if (entryType == EntryType.STRING) {
-                    returnValue = table.getDataSet(searchingKey, givenKey, givenValue);
-                } else if (entryType == EntryType.INTEGER
-                        || entryType == EntryType.DOUBLE
-                        || entryType == EntryType.LONG
-                        || entryType == EntryType.FLOAT
-                        || entryType == EntryType.BYTE
-                        || entryType == EntryType.SHORT) {
-                    assert givenKey != null;
-                    returnValue = table.getDataSet(searchingKey, givenKey, givenValue);
+                    returnValue = table.getDataSet(searchingKey, givenKey, (String) givenValue);
+                } else if (entryType == EntryType.INTEGER) {
+                    returnValue = table.getDataSet(searchingKey, givenKey, Integer.parseInt(givenValue));
+                } else if (entryType == EntryType.SHORT) {
+                    returnValue = table.getDataSet(searchingKey, givenKey, Short.parseShort(givenValue));
+                } else if (entryType == EntryType.FLOAT) {
+                    returnValue = table.getDataSet(searchingKey, givenKey, Float.parseFloat(givenValue));
+                } else if (entryType == EntryType.BYTE) {
+                    returnValue = table.getDataSet(searchingKey, givenKey, Byte.parseByte(givenValue));
+                } else if (entryType == EntryType.DOUBLE) {
+                    returnValue = table.getDataSet(searchingKey, givenKey, Double.parseDouble(givenValue));
+                } else if (entryType == EntryType.LONG) {
+                    returnValue = table.getDataSet(searchingKey, givenKey, Long.parseLong(givenValue));
                 } else if (entryType == EntryType.BOOLEAN) {
-                    returnValue = table.getDataSet(searchingKey, givenKey, givenValue);
+                    returnValue = table.getDataSet(searchingKey, givenKey, Boolean.parseBoolean(givenValue));
                 } else if (entryType == EntryType.CHARACTER) {
-                    returnValue = table.getDataSet(searchingKey, givenKey, givenValue);
+                    returnValue = table.getDataSet(searchingKey, givenKey, givenValue.charAt(0));
                 }
 
                 if (returnValue == null) return;
@@ -119,6 +128,21 @@ public class DatabaseManager implements Service {
                 sendError(client, id, "Could not find database");
             }
         } else if (args[0].equalsIgnoreCase("set")) {
+            String searchingKey = args[1];
+            String[] given = args[5].split("=");
+            String tableName = args[3];
+
+            String givenKey = null;
+            String givenValue = null;
+
+            if (searchingKey == null || given.length == 0 || tableName == null) {
+                sendError(client, id, "A wrong syntax in query.");
+                return;
+            } else {
+                givenKey = given[0];
+                givenValue = given[1];
+            }
+
 
         }
 

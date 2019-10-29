@@ -37,11 +37,9 @@ public class NetworkManager extends Thread implements Service {
         try {
             init();
 
-            Socket client;
-            while ((client = server.accept()) != null) {
-                UUID uniqueId = UUID.randomUUID();
-                this.clients.put(uniqueId, new Client(uniqueId, client));
-                loggerManager.log("Client[IP: " + client.getInetAddress().getHostAddress() + " / UUID: " + uniqueId.toString() + "] connected");
+            Socket socket;
+            while ((socket = server.accept()) != null) {
+                Client client = new Client(socket);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -67,4 +65,7 @@ public class NetworkManager extends Thread implements Service {
         this.clients.remove(uniqueId);
     }
 
+    public Map<UUID, Client> getClients() {
+        return clients;
+    }
 }
