@@ -36,8 +36,8 @@ public class DatabaseManager implements Service {
             String[] given = args[5].split("=");
             String tableName = args[3];
 
-            String givenKey = null;
-            String givenValue = null;
+            String givenKey;
+            String givenValue;
 
             if (searchingKey == null || given.length == 0 || tableName == null) {
                 sendError(client, id, "A wrong syntax in query.");

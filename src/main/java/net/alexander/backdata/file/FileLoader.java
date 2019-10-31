@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 public class FileLoader {
+
     private File file;
 
     private HashMap<String, Object> storage;
