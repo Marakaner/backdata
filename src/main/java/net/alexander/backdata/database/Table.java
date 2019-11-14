@@ -23,11 +23,8 @@ public class Table {
             for (String key : dataSet.getEntries().keySet()) {
                 if (key.equals(searchingKey)) {
                     if (dataSet.getEntry(givenKey) != null) {
-                        if (dataSet.getEntry(givenKey) instanceof StringEntry) {
-                            StringEntry entry = (StringEntry) dataSet.getEntry(givenKey);
-                            if (entry.getValue().equals(givenValue)) {
-                                return dataSet.getEntry(searchingKey);
-                            }
+                        if(String.valueOf(dataSet.getEntry(givenKey)).equals(givenValue)) {
+                            return dataSet.getEntry(searchingKey);
                         }
                     }
                 }
@@ -36,85 +33,21 @@ public class Table {
         return null;
     }
 
-    public IEntry getDataSet(String searchingKey, String givenKey, Character givenValue) {
-        for (DataSet dataSet : dataSets) {
-            for (String key : dataSet.getEntries().keySet()) {
-                if (key.equals(searchingKey)) {
-                    if (dataSet.getEntry(givenKey) != null) {
-                        if (dataSet.getEntry(givenKey) instanceof CharacterEntry) {
-                            StringEntry entry = (StringEntry) dataSet.getEntry(givenKey);
-                            if (entry.getValue().equals(givenValue)) {
-                                return dataSet.getEntry(searchingKey);
-                            }
+    public void setDataSet(String setKey, IEntry setValue, String givenKey, String givenValue) {
+        for(DataSet dataSet : dataSets) {
+            for(String key : dataSet.getEntries().keySet()) {
+                if(key.equals(givenKey)) {
+                    if(dataSet.getEntry(key) != null) {
+                        if(dataSet.getEntry(givenKey).getGlobalValue().equals(givenValue)) {
+                            dataSet.setEntry(setKey, setValue);
                         }
                     }
                 }
             }
         }
-        return null;
     }
 
-    public IEntry getDataSet(String searchingKey, String givenKey, boolean givenValue) {
-        for (DataSet dataSet : dataSets) {
-            for (String key : dataSet.getEntries().keySet()) {
-                if (key.equals(searchingKey)) {
-                    if (dataSet.getEntry(givenKey) != null) {
-                        if (dataSet.getEntry(givenKey) instanceof BooleanEntry) {
-                            BooleanEntry entry = (BooleanEntry) dataSet.getEntry(givenKey);
-                            if (entry.isValue() == givenValue) {
-                                return dataSet.getEntry(searchingKey);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        return null;
+    public boolean isDataSetExisting(String searchingKey, String givenKey, String givenValue) {
+        return getDataSet(searchingKey, givenKey, givenValue) != null;
     }
-
-    public IEntry getDataSet(String searchingKey, String givenKey, Number givenValue) {
-        for (DataSet dataSet : dataSets) {
-            for (String key : dataSet.getEntries().keySet()) {
-                if (key.equals(searchingKey)) {
-                    if (dataSet.getEntry(givenKey) != null) {
-                        if (givenValue instanceof Long && dataSet.getEntry(givenKey) instanceof LongEntry) {
-                            LongEntry entry = (LongEntry) dataSet.getEntry(givenKey);
-                            if (entry.getValue() == givenValue.longValue()) {
-                                return dataSet.getEntry(searchingKey);
-                            }
-                        } else if (givenValue instanceof Double && dataSet.getEntry(givenKey) instanceof DoubleEntry) {
-                            DoubleEntry entry = (DoubleEntry) dataSet.getEntry(givenKey);
-                            if (entry.getValue() == givenValue.doubleValue()) {
-                                return dataSet.getEntry(searchingKey);
-                            }
-                        } else if (givenValue instanceof Float && dataSet.getEntry(givenKey) instanceof FloatEntry) {
-                            FloatEntry entry = (FloatEntry) dataSet.getEntry(givenKey);
-                            if (entry.getValue() == givenValue.floatValue()) {
-                                return dataSet.getEntry(searchingKey);
-                            }
-                        } else if (givenValue instanceof Integer && dataSet.getEntry(givenKey) instanceof IntegerEntry) {
-                            IntegerEntry entry = (IntegerEntry) dataSet.getEntry(givenKey);
-                            if (entry.getValue() == givenValue.intValue()) {
-                                return dataSet.getEntry(searchingKey);
-                            }
-                        } else if (givenValue instanceof Byte && dataSet.getEntry(givenKey) instanceof ByteEntry) {
-                            ByteEntry entry = (ByteEntry) dataSet.getEntry(givenKey);
-                            if (entry.getValue() == givenValue.byteValue()) {
-                                return dataSet.getEntry(searchingKey);
-                            }
-                        } else if (givenValue instanceof Short && dataSet.getEntry(givenKey) instanceof ShortEntry) {
-                            ShortEntry entry = (ShortEntry) dataSet.getEntry(givenKey);
-                            if (entry.getValue() == givenValue.shortValue()) {
-                                return dataSet.getEntry(searchingKey);
-                            }
-                        }
-
-                        return dataSet.getEntry(searchingKey);
-                    }
-                }
-            }
-        }
-        return null;
-    }
-
 }

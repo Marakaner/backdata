@@ -4,7 +4,6 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import net.alexander.backdata.database.EntryType;
 import net.alexander.backdata.database.IEntry;
-import net.alexander.backdata.database.INumberEntry;
 import net.alexander.backdata.database.entries.ArrayEntry;
 import net.alexander.backdata.database.entries.BooleanEntry;
 import net.alexander.backdata.database.entries.CharacterEntry;
@@ -53,8 +52,8 @@ public class Document {
                 || arrayEntry.getEntryType() == EntryType.SHORT) {
 
             for(IEntry all : arrayEntry.getValue()) {
-                INumberEntry entry = (INumberEntry) all;
-                jsonArray.add((Number) entry.getNumberValue());
+                IEntry entry = (IEntry) all;
+                jsonArray.add((Number) entry.getGlobalValue());
             }
         } else if(arrayEntry.getEntryType() == EntryType.CHARACTER) {
             for(IEntry all : arrayEntry.getValue()) {

@@ -19,4 +19,9 @@ public class CharacterEntry implements IEntry {
     public EntryType getType() {
         return EntryType.CHARACTER;
     }
+
+    @Override
+    public Object getGlobalValue() {
+        return this.value;
+    }
 }

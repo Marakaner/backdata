@@ -30,21 +30,28 @@ public class CommandManager implements Service {
 
     public void checkCommand(String input) {
         try {
+
             String name;
             String[] args;
 
-            input = input.trim();
-            args = input.split(" ");
-            name = args[0];
+            if(input.contains(" ")) {
+                args = input.trim().split(" ");
+                name = args[0];
+            } else {
+                args = null;
+                name = input.trim();
+            }
 
             if (this.commands.containsKey(name.toLowerCase())) {
                 input = input.replace(name, "").trim();
                 args = input.split(" ");
+
                 this.commands.get(name).execute(args);
             } else {
                 logger.log(Priority.ERROR, "The command '" + name + "' could not be found.");
             }
         } catch (Exception ex) {
+            ex.printStackTrace();
             logger.log(Priority.ERROR, "Could not find command");
         }
     }

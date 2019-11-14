@@ -17,4 +17,9 @@ public class StringEntry implements IEntry {
     public EntryType getType() {
         return EntryType.STRING;
     }
+
+    @Override
+    public Object getGlobalValue() {
+        return this.value;
+    }
 }

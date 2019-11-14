@@ -9,6 +9,7 @@ public class HelpCommand extends Command {
     }
 
     public void execute(String[] args) {
+        System.out.println(args.length);
         if (args.length == 0) {
             log("List of all existing Commands:");
             log("user - Command to manage the user");

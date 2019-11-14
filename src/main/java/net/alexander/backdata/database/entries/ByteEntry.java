@@ -3,9 +3,9 @@ package net.alexander.backdata.database.entries;
 import lombok.Getter;
 import lombok.Setter;
 import net.alexander.backdata.database.EntryType;
-import net.alexander.backdata.database.INumberEntry;
+import net.alexander.backdata.database.IEntry;
 
-public class ByteEntry implements INumberEntry {
+public class ByteEntry implements IEntry {
 
     @Getter
     @Setter
@@ -22,7 +22,9 @@ public class ByteEntry implements INumberEntry {
     }
 
     @Override
-    public Object getNumberValue() {
+    public Object getGlobalValue() {
         return this.value;
     }
+
+
 }

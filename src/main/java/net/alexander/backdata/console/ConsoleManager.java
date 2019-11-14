@@ -20,6 +20,7 @@ public class ConsoleManager {
         String line;
 
         while (BackData.getInstance().isRunning() && (line = scanner.nextLine()) != null) {
+            assert commandManager != null;
             commandManager.checkCommand(line);
         }
     }

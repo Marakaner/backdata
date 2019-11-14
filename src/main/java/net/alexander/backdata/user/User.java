@@ -5,6 +5,9 @@ import net.alexander.backdata.BackData;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Logged
+ */
 public class User {
 
     private int id;

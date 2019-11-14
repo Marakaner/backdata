@@ -1,5 +1,6 @@
 package net.alexander.backdata.service;
 
+import java.net.ServerSocket;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -8,6 +9,7 @@ public class ServiceManager {
     private static Map<Class, Service> services = new HashMap<>();
 
     public static <T> T getService(Class clazz) {
+        if(!services.containsKey(clazz)) return null;
         return (T) services.get(clazz);
     }
 
@@ -24,7 +26,7 @@ public class ServiceManager {
         }
     }
 
-    public static void registerService(Class clazz, Service service) {
+    public static void registerService(Class<?> clazz, Service service) {
         if (!services.containsKey(clazz)) services.put(clazz, service);
     }
 }

@@ -7,6 +7,7 @@ import lombok.Setter;
 import net.alexander.backdata.command.CommandManager;
 import net.alexander.backdata.command.commands.ExitCommand;
 import net.alexander.backdata.command.commands.HelpCommand;
+import net.alexander.backdata.command.commands.TestCommand;
 import net.alexander.backdata.console.ConsoleManager;
 import net.alexander.backdata.database.DatabaseManager;
 import net.alexander.backdata.event.EventManager;
@@ -24,6 +25,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
 
+/**
+ * The main class of the project
+ */
 public class BackData {
 
     @Getter
@@ -104,6 +108,8 @@ public class BackData {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        databaseManager.saveDatabase();
     }
 
     private void installing() {
@@ -154,7 +160,11 @@ public class BackData {
         this.eventManager = new EventManager();
         ServiceManager.registerService(EventManager.class, eventManager);
 
-        this.databaseManager = new DatabaseManager();
+        if(!new File("BackData/Database/").exists()) {
+            new File("BackData/Database/").mkdir();
+        }
+
+        this.databaseManager = new DatabaseManager("BackData/Database/");
         ServiceManager.registerService(DatabaseManager.class, databaseManager);
 
         this.networkManager = new NetworkManager();
@@ -167,6 +177,7 @@ public class BackData {
     private void initCommands() {
         commandManager.registerCommand(new HelpCommand("help"));
         commandManager.registerCommand(new ExitCommand("exit"));
+        commandManager.registerCommand(new TestCommand("test"));
     }
 
     private void initEvents() {

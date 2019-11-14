@@ -32,4 +32,9 @@ public class ArrayEntry implements IEntry {
         return EntryType.ARRAY;
     }
 
+    @Override
+    public Object getGlobalValue() {
+        return value;
+    }
+
 }

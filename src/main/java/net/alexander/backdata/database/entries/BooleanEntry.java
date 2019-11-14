@@ -19,4 +19,9 @@ public class BooleanEntry implements IEntry {
     public EntryType getType() {
         return EntryType.BOOLEAN;
     }
+
+    @Override
+    public Object getGlobalValue() {
+        return this.value;
+    }
 }
