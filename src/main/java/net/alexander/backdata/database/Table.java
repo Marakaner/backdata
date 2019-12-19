@@ -1,7 +1,6 @@
 package net.alexander.backdata.database;
 
 import lombok.Getter;
-import net.alexander.backdata.database.entries.*;
 
 import java.util.ArrayList;
 import java.util.List;

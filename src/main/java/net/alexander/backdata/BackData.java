@@ -85,9 +85,8 @@ public class BackData {
     }
 
     private void init() {
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            shutdown();
-        }));
+        Runtime.getRuntime().addShutdownHook(new Thread(this::shutdown));
+
 
         initManager();
         initCommands();

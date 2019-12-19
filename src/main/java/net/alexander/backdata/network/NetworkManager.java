@@ -9,41 +9,31 @@ import org.apache.log4j.Priority;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.ServerSocket;
-import java.net.Socket;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-public class NetworkManager extends Thread implements Service {
+public class NetworkManager implements Service {
 
     private LoggerManager loggerManager = ServiceManager.getService(LoggerManager.class);
 
-    private ServerSocket server;
+    private Map<String, Client> clients;
 
-    private Map<UUID, Client> clients;
+    private Server server;
 
     private String ip;
     private int port = -1;
 
     public NetworkManager() {
         clients = new HashMap<>();
-        setDaemon(true);
-        start();
     }
 
-    @Override
-    public void run() {
-        try {
-            init();
+    protected void registerClient(Client client) {
+        this.clients.put(client.getChannel().id().asLongText(), client);
+    }
 
-            Socket socket;
-            while ((socket = server.accept()) != null) {
-                Client client = new Client(socket);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public boolean isRegistered(String channelId) {
+        return this.clients.get(channelId) != null;
     }
 
     private void init() throws IOException {
@@ -57,7 +47,11 @@ public class NetworkManager extends Thread implements Service {
             BackData.getInstance().shutdown();
         }
 
-        this.server = new ServerSocket(port);
+        try {
+            server = new Server(this.port);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void unregisterClient(UUID uniqueId) {
@@ -65,7 +59,12 @@ public class NetworkManager extends Thread implements Service {
         this.clients.remove(uniqueId);
     }
 
-    public Map<UUID, Client> getClients() {
-        return clients;
+    public Client getClient(String channelId) {
+        return this.clients.get(channelId);
+    }
+
+    @Override
+    public String getName() {
+        return this.getClass().getSimpleName();
     }
 }

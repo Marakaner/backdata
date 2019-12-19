@@ -6,7 +6,7 @@ This project was programmed as an school project.
 ## Getting Started
 
 For testing the software you have to clone the project to your local system and build it with maven.
-(The requirements are given in the pom.xml
+(The requirements are given in the pom.xml)
 
 ### Prerequisites
 
@@ -16,18 +16,13 @@ For running on a live system you need at least two several clients. One running 
 
 ### Installing
 
-A step by step series of examples that tell you how to get a development env running
-
-Say what the step will be
+If you want to run this program by yourself follow these quick steps.
 
 ```
-Give the example
+Go to your favourite IDE
 ```
-
-And repeat
-
 ```
-until finished
+If
 ```
 
 End with an example of getting some data out of the system or using it for a little demo

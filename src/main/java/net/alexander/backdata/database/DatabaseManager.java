@@ -3,8 +3,6 @@ package net.alexander.backdata.database;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
-import javafx.scene.control.Tab;
-import lombok.Builder;
 import lombok.Getter;
 import net.alexander.backdata.BackData;
 import net.alexander.backdata.database.entries.*;
