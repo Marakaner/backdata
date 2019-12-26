@@ -54,9 +54,8 @@ public class NetworkManager implements Service {
         }
     }
 
-    public void unregisterClient(UUID uniqueId) {
-        loggerManager.log("Client[IP: " + clients.get(uniqueId).getSocket().getInetAddress().getHostAddress() + " / UUID: " + uniqueId.toString() + "] disconnected");
-        this.clients.remove(uniqueId);
+    public void unregisterClient(String channelId) {
+        this.clients.remove(channelId);
     }
 
     public Client getClient(String channelId) {

@@ -1,5 +1,6 @@
 package net.alexander.backdata.network;
 
+import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import net.alexander.backdata.BackData;
@@ -25,6 +26,11 @@ public class NetworkHandler extends SimpleChannelInboundHandler<String> {
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
+        Channel channel = ctx.channel();
+
+        if(BackData.getInstance().getNetworkManager().isRegistered(channel.id().asLongText())) {
+            BackData.getInstance().getNetworkManager().unregisterClient(channel.id().asLongText());
+        }
     }
 
     @Override

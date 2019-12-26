@@ -22,7 +22,11 @@ If you want to run this program by yourself follow these quick steps.
 Go to your favourite IDE
 ```
 ```
-If
+Copy the project with Git and after that run the "clean package" command in maven
+```
+```
+Optional:
+Otherway you can also install maven on your pc and run it with maven itself
 ```
 
 End with an example of getting some data out of the system or using it for a little demo
