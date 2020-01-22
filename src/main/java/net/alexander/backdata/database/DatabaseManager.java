@@ -25,6 +25,10 @@ public class DatabaseManager implements Service {
     @Getter
     private Map<String, Table> tables;
 
+    /**
+     * Creating the DatabaseManager
+     * @param dir the directory in which the database will run.
+     */
     public DatabaseManager(String dir) {
 
         this.tables = new HashMap<>();
@@ -45,6 +49,9 @@ public class DatabaseManager implements Service {
         }
     }
 
+    /**
+     * It just saving the database to a Json Document.
+     */
     public void saveDatabase() {
         for(String table : tables.keySet()) {
             File file = new File(directory.getPath() + "/" + table);
@@ -60,10 +67,20 @@ public class DatabaseManager implements Service {
         }
     }
 
+    /**
+     * Method to identify a table by it's name
+     * @param name The name of the searched table
+     * @return The searched {@link net.alexander.backdata.database.Table} Object
+     */
     public Table getTable(String name) {
         return this.tables.get(name);
     }
 
+    /**
+     * Method to identify which type of query it is. Example: SET-Query, GET-Query and so on...
+     * @param client The client which requested the query
+     * @param jsonObject The JsonObject which contains the required arguments for the query
+     */
     public void handleRequest(Client client, JsonObject jsonObject) {
         Document document = new Document(jsonObject);
 
@@ -78,6 +95,11 @@ public class DatabaseManager implements Service {
 
     }
 
+    /**
+     * The internal method for a SET-Query
+     * @param client The client which requested the query
+     * @param document {@link net.alexander.backdata.util.Document} The document which contains the required arguments for the query
+     */
     private void set(Client client, Document document) {
 
         String[] args = document.getString("query").trim().split(" ");
@@ -104,7 +126,39 @@ public class DatabaseManager implements Service {
             EntryType type = EntryType.getByName(document.getString("type"));
 
             switch(type) {
+                case ARRAY:
 
+                    break;
+                case BYTE:
+
+                    break;
+                case BOOLEAN:
+
+                    break;
+                case CHARACTER:
+
+                    break;
+                case DOUBLE:
+
+                    break;
+                case FLOAT:
+
+                    break;
+                case INTEGER:
+
+                    break;
+                case LONG:
+
+                    break;
+                case STRING:
+
+                    break;
+                case SHORT:
+
+                    break;
+                default:
+
+                    break;
             }
 
         } else {

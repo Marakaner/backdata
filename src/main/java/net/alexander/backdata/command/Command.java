@@ -20,6 +20,10 @@ public abstract class Command {
         this.name = name;
     }
 
+    /**
+     * The super method which every Command object has to extend
+     * @param args The args which typed in relative to the command
+     */
     public abstract void execute(String[] args);
 
     public void log(String message) {

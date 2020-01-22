@@ -20,6 +20,10 @@ public class EventManager implements Service {
         this.listener = new HashMap<>();
     }
 
+    /**
+     * Register the given Object as Listener for an Event
+     * @param listener
+     */
     public void registerListener(Listener listener) {
         Class clazz = listener.getClass();
 
@@ -36,6 +40,10 @@ public class EventManager implements Service {
         }
     }
 
+    /**
+     * Register the given class as event class
+     * @param event
+     */
     public void registerEvent(Class event) {
         if ((!this.events.contains(event)) || (!this.listener.containsKey(event))) {
             this.events.add(event);
@@ -43,6 +51,10 @@ public class EventManager implements Service {
         }
     }
 
+    /**
+     * External method for calling a event and trigger all listener
+     * @param event
+     */
     public void fireEvent(Event event) {
         for (Method method : listener.get(event.getClass())) {
             try {

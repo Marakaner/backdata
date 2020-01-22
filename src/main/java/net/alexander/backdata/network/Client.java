@@ -27,6 +27,10 @@ public class Client extends Thread {
         start();
     }
 
+    /**
+     * One of the first steps after a message coming in. The client has to handle the incoming text and make a decision.
+     * @param message
+     */
     public void handleMessage(String message) {
 
         JsonParser jsonParser = new JsonParser();
@@ -36,6 +40,10 @@ public class Client extends Thread {
 
     }
 
+    /**
+     * Register a new channel as Client and logging in for the permissions
+     * @param message
+     */
     public void login(String message) {
 
         JsonParser jsonParser = new JsonParser();
@@ -55,10 +63,18 @@ public class Client extends Thread {
         }
     }
 
+    /**
+     * Send a message to the client
+     * @param message
+     */
     public void write(String message) {
         this.channel.write(message);
     }
 
+    /**
+     * 
+     * @param jsonObject
+     */
     public void write(JsonObject jsonObject) {
         write(jsonObject.getAsString());
     }
